@@ -24,6 +24,11 @@
             margin: 5px;
         }
 
+        .bar {
+            height: 18px;
+            background: green;
+        }
+
         .full-height {
             height: 100vh;
         }
