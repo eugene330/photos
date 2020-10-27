@@ -16,7 +16,7 @@
             </div>
         @endif
         <div id="showImg">
-            {{--            <div class="defaultImg"><img src="{{ asset('photos/'. $filename) }}"></div>--}}
+{{--        <div class="defaultImg"><img src="{{ asset('photos/'. $filename) }}"></div>--}}
             @foreach($imgArr as $photo)
                 <img src="{{ asset('photos/'.$photo) }}">
             @endforeach

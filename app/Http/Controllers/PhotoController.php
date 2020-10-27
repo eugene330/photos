@@ -32,7 +32,7 @@ class PhotoController extends Controller
         return view('welcome');
     }
 
-    private function saveCroppedImage($img, $extension, $width, $height, $x, $y)
+    private function saveCroppedImage(&$img, $extension, $width, $height, $x, $y)
     {
         $this->img = $img;
         $filename = Str::random(40) . '.' . $extension ?: 'png';;
@@ -42,6 +42,7 @@ class PhotoController extends Controller
         $copy_of_object->crop((int)$width, (int)$height, (int)$x, (int)$y);
         $copy_of_object->save($path . $filename);
 
+        $copy_of_object = null;
         return $filename;
     }
 
@@ -53,10 +54,12 @@ class PhotoController extends Controller
      */
     public function store(Request $request)
     {
+        ini_set('memory_limit', '-1');
+        set_time_limit(0);
         $path = public_path() . '/' . 'photos/';
         $file = $request->file('img');
         $img = ImageInt::make($file);
-        $extension = $file->getClientOriginalExtension();
+        $extension = strtolower($file->getClientOriginalExtension());
         if($img->filesize()>30*1024*1024 || !in_array($extension,['png', 'jpg', 'jpeg', 'tiff'])){
             return ('Size or extension is not correct');
         }
